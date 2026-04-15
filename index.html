@@ -3,143 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElectroMaster Pro | Advanced Calculator</title>
+    <title>ElectroMaster Pro | All-in-One Electrical Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .tab-active {
-            border-bottom: 3px solid #3b82f6;
-            color: #3b82f6;
-        }
-
-        .resistor-band {
-            width: 12px;
-            height: 40px;
-            border-radius: 2px;
-            transition: background 0.3s ease;
-        }
-
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-        }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; min-height: 100vh; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; margin-bottom: 20px; }
+        .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: bold; }
+        input, select { background: #1e293b; border: 1px solid #334155; border-radius: 6px; padding: 8px; color: white; width: 100%; outline: none; }
+        input:focus { border-color: #3b82f6; }
+        .resistor-band { width: 12px; height: 40px; border-radius: 2px; }
+        .result-box { border-left: 4px solid #3b82f6; background: rgba(59, 130, 246, 0.1); padding: 10px; border-radius: 0 6px 6px 0; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4">
 
-    <div class="max-w-4xl mx-auto">
-        <header class="text-center mb-10">
-            <h1 class="text-4xl font-bold text-blue-400 mb-2">ElectroMaster Pro</h1>
-            <p class="text-slate-400">Advanced Engineering Measurement Tools</p>
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center py-6">
+            <h1 class="text-3xl font-bold text-blue-400">ElectroMaster Pro</h1>
+            <p class="text-slate-400 text-sm">Advanced Engineering Measurement & Design Suite</p>
         </header>
 
-        <nav class="flex space-x-4 mb-8 overflow-x-auto pb-2 border-b border-slate-700">
-            <button onclick="showTab('resistor')" class="tab-btn px-4 py-2 font-semibold transition hover:text-blue-400" id="defaultTab">Resistor Color Code</button>
-            <button onclick="showTab('ohms')" class="tab-btn px-4 py-2 font-semibold transition hover:text-blue-400">Ohm's Law</button>
-            <button onclick="showTab('components')" class="tab-btn px-4 py-2 font-semibold transition hover:text-blue-400">L & C Calc</button>
+        <nav class="flex space-x-6 mb-8 overflow-x-auto pb-4 border-b border-slate-700 whitespace-nowrap">
+            <button onclick="showTab('resistor')" class="tab-btn px-2 py-1" id="defaultTab">Resistor Code</button>
+            <button onclick="showTab('ohms')" class="tab-btn px-2 py-1">Ohm's & Power</button>
+            <button onclick="showTab('ac')" class="tab-btn px-2 py-1">AC Circuits</button>
+            <button onclick="showTab('transformer')" class="tab-btn px-2 py-1">Transformer/Misc</button>
+            <button onclick="showTab('lc')" class="tab-btn px-2 py-1">L & C Calc</button>
         </nav>
 
         <section id="resistor-section" class="tab-content hidden animate-fade-in">
             <div class="glass-card p-6">
-                <h2 class="text-xl font-semibold mb-6">Resistor Color Code Calculator</h2>
-                
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="relative w-64 h-12 bg-[#d1b280] rounded-full flex justify-around items-center px-4 border-2 border-amber-600/20">
-                        <div id="visual-0" class="resistor-band bg-gray-500"></div>
-                        <div id="visual-1" class="resistor-band bg-gray-500"></div>
-                        <div id="visual-2" class="resistor-band bg-gray-500"></div>
-                        <div id="visual-3" class="resistor-band bg-gray-500"></div>
-                        <div id="visual-4" class="resistor-band bg-gray-500"></div>
-                        <div id="visual-5" class="resistor-band bg-gray-500"></div>
+                <h2 class="text-lg font-semibold mb-4 text-blue-300">Resistor Color Code</h2>
+                <div class="flex flex-col md:flex-row items-center gap-10 bg-slate-900/50 p-6 rounded-lg mb-6">
+                    <div class="relative w-64 h-12 bg-[#d1b280] rounded-full flex justify-around items-center px-4 border-2 border-amber-900/10">
+                        <div id="visual-0" class="resistor-band"></div>
+                        <div id="visual-1" class="resistor-band"></div>
+                        <div id="visual-2" class="resistor-band"></div>
+                        <div id="visual-3" class="resistor-band"></div>
+                        <div id="visual-4" class="resistor-band"></div>
+                        <div id="visual-5" class="resistor-band"></div>
                     </div>
-
-                    <div class="text-right">
-                        <div class="text-sm text-slate-400">Total Resistance</div>
-                        <div id="res-result" class="text-3xl font-bold text-green-400">0 Ω ±0%</div>
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">Calculated Value</p>
+                        <h3 id="res-result" class="text-3xl font-bold text-green-400">0 Ω</h3>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                        <label class="block text-xs mb-1">Band Count</label>
-                        <select id="band-count" onchange="initResistor()" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-sm focus:outline-none">
-                            <option value="3">3 Bands</option>
-                            <option value="4" selected>4 Bands</option>
-                            <option value="5">5 Bands</option>
-                            <option value="6">6 Bands</option>
-                        </select>
+                        <label class="text-xs text-slate-400">Bands</label>
+                        <select id="band-count" onchange="initResistor()"><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option></select>
                     </div>
-                    <div id="band-selectors" class="contents">
-                        </div>
+                    <div id="band-selectors" class="contents"></div>
                 </div>
             </div>
         </section>
 
         <section id="ohms-section" class="tab-content hidden">
-            <div class="glass-card p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ohm's Law (DC)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <h2 class="text-lg font-semibold mb-4 text-blue-300">DC Calculator (V, I, R, P)</h2>
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Voltage (V)</label>
-                            <input type="number" id="v-val" class="w-full bg-slate-800 border border-slate-600 rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Volts">
-                        </div>
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Current (I)</label>
-                            <input type="number" id="i-val" class="w-full bg-slate-800 border border-slate-600 rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Amps">
-                        </div>
-                        <div>
-                            <label class="block text-sm text-slate-400 mb-1">Resistance (R)</label>
-                            <input type="number" id="r-val" class="w-full bg-slate-800 border border-slate-600 rounded p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ohms">
-                        </div>
-                        <button onclick="calcOhms()" class="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded font-bold transition">Calculate Power & Values</button>
+                        <input type="number" id="v-val" placeholder="Voltage (V)">
+                        <input type="number" id="i-val" placeholder="Current (I)">
+                        <input type="number" id="r-val" placeholder="Resistance (R)">
+                        <button onclick="calcOhms()" class="w-full bg-blue-600 py-2 rounded font-bold">Calculate</button>
                     </div>
                 </div>
-                <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
-                    <h3 class="text-sm text-slate-400 mb-4 uppercase">Results</h3>
-                    <div id="ohms-result" class="space-y-2 text-lg">
-                        Enter any two values to calculate the others.
-                    </div>
+                <div class="glass-card p-6">
+                    <h2 class="text-lg font-semibold mb-4 text-slate-400">Result Dashboard</h2>
+                    <div id="ohms-result" class="space-y-3">Enter values to see results...</div>
                 </div>
             </div>
         </section>
 
-        <section id="components-section" class="tab-content hidden">
+        <section id="ac-section" class="tab-content hidden">
             <div class="glass-card p-6">
-                <h2 class="text-xl font-semibold mb-6">Series & Parallel (L/C)</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-800/40 p-4 rounded border border-slate-700">
-                        <h3 class="mb-3 text-blue-400">Capacitance</h3>
-                        <input type="text" id="c-list" class="w-full bg-slate-900 p-2 rounded mb-3 outline-none" placeholder="Values separated by comma (e.g. 10, 20)">
-                        <div class="flex gap-2">
-                            <button onclick="calcLC('C', 'series')" class="flex-1 bg-slate-700 py-1 rounded text-xs">Series</button>
-                            <button onclick="calcLC('C', 'parallel')" class="flex-1 bg-slate-700 py-1 rounded text-xs">Parallel</button>
-                        </div>
-                        <div id="c-result" class="mt-3 text-sm font-mono text-green-400"></div>
+                <h2 class="text-lg font-semibold mb-4 text-blue-300">AC Power & Frequency</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-3">
+                        <label class="text-xs">Voltage (RMS)</label><input type="number" id="ac-v">
+                        <label class="text-xs">Current (A)</label><input type="number" id="ac-i">
+                        <label class="text-xs">Power Factor (cos Φ)</label><input type="number" id="ac-pf" value="0.8">
+                        <button onclick="calcAC()" class="w-full bg-green-600 py-2 rounded mt-2">Calculate AC Power</button>
                     </div>
-                    <div class="bg-slate-800/40 p-4 rounded border border-slate-700">
-                        <h3 class="mb-3 text-yellow-400">Inductance</h3>
-                        <input type="text" id="l-list" class="w-full bg-slate-900 p-2 rounded mb-3 outline-none" placeholder="Values separated by comma">
+                    <div class="result-box" id="ac-result">Results: Real Power (W), Apparent (VA), Reactive (VAR).</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="transformer-section" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <h3 class="text-blue-300 mb-4">Transformer Turn Ratio</h3>
+                    <input type="number" id="t-np" placeholder="Primary Turns (Np)" class="mb-2">
+                    <input type="number" id="t-ns" placeholder="Secondary Turns (Ns)" class="mb-2">
+                    <button onclick="calcTrans()" class="w-full bg-indigo-600 py-2 rounded">Find Ratio & Voltage</button>
+                    <div id="t-result" class="mt-4 text-sm text-yellow-400"></div>
+                </div>
+                <div class="glass-card p-6">
+                    <h3 class="text-blue-300 mb-4">Frequency & Period</h3>
+                    <input type="number" id="freq-val" placeholder="Frequency (Hz)" class="mb-2">
+                    <button onclick="calcFreq()" class="w-full bg-slate-600 py-2 rounded">Calculate Period (T)</button>
+                    <div id="freq-result" class="mt-4 font-mono text-blue-400"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lc-section" class="tab-content hidden">
+            <div class="glass-card p-6">
+                <h2 class="text-lg font-semibold mb-6">Series & Parallel Inductance/Capacitance</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-800/40 p-4 rounded">
+                        <h4 class="text-blue-400 mb-2">Capacitors (µF)</h4>
+                        <input type="text" id="c-list" placeholder="10, 22, 47..." class="mb-3">
                         <div class="flex gap-2">
-                            <button onclick="calcLC('L', 'series')" class="flex-1 bg-slate-700 py-1 rounded text-xs">Series</button>
-                            <button onclick="calcLC('L', 'parallel')" class="flex-1 bg-slate-700 py-1 rounded text-xs">Parallel</button>
+                            <button onclick="calcLC('C', 'series')" class="flex-1 bg-slate-700 py-1 rounded">Series</button>
+                            <button onclick="calcLC('C', 'parallel')" class="flex-1 bg-slate-700 py-1 rounded">Parallel</button>
                         </div>
-                        <div id="l-result" class="mt-3 text-sm font-mono text-green-400"></div>
+                        <div id="c-result" class="mt-2 text-green-400 font-bold"></div>
+                    </div>
+                    <div class="bg-slate-800/40 p-4 rounded">
+                        <h4 class="text-yellow-400 mb-2">Inductors (mH)</h4>
+                        <input type="text" id="l-list" placeholder="1, 4.7, 10..." class="mb-3">
+                        <div class="flex gap-2">
+                            <button onclick="calcLC('L', 'series')" class="flex-1 bg-slate-700 py-1 rounded">Series</button>
+                            <button onclick="calcLC('L', 'parallel')" class="flex-1 bg-slate-700 py-1 rounded">Parallel</button>
+                        </div>
+                        <div id="l-result" class="mt-2 text-green-400 font-bold"></div>
                     </div>
                 </div>
             </div>
@@ -147,165 +138,100 @@
     </div>
 
     <script>
-        // Constants for Resistor
         const colors = {
-            black: { val: 0, mult: 1, tol: null, temp: null, hex: '#000000' },
-            brown: { val: 1, mult: 10, tol: 1, temp: 100, hex: '#8B4513' },
-            red: { val: 2, mult: 100, tol: 2, temp: 50, hex: '#FF0000' },
-            orange: { val: 3, mult: 1000, tol: 0.05, temp: 15, hex: '#FFA500' },
-            yellow: { val: 4, mult: 10000, tol: 0.02, temp: 25, hex: '#FFFF00' },
-            green: { val: 5, mult: 100000, tol: 0.5, temp: 20, hex: '#008000' },
-            blue: { val: 6, mult: 1000000, tol: 0.25, temp: 10, hex: '#0000FF' },
-            violet: { val: 7, mult: 10000000, tol: 0.1, temp: 5, hex: '#EE82EE' },
-            grey: { val: 8, mult: 100000000, tol: 0.01, temp: 1, hex: '#808080' },
-            white: { val: 9, mult: 1000000000, tol: null, temp: null, hex: '#FFFFFF' },
-            gold: { val: null, mult: 0.1, tol: 5, temp: null, hex: '#FFD700' },
-            silver: { val: null, mult: 0.01, tol: 10, temp: null, hex: '#C0C0C0' }
+            black: { v: 0, m: 1, t: null, h: '#000' }, brown: { v: 1, m: 10, t: 1, h: '#8B4513' },
+            red: { v: 2, m: 100, t: 2, h: '#f00' }, orange: { v: 3, m: 1000, t: 0.05, h: '#ffa500' },
+            yellow: { v: 4, m: 10000, t: 0.02, h: '#ff0' }, green: { v: 5, m: 100000, t: 0.5, h: '#008000' },
+            blue: { v: 6, m: 1000000, t: 0.25, h: '#00f' }, violet: { v: 7, m: 10000000, t: 0.1, h: '#ee82ee' },
+            grey: { v: 8, m: 100000000, t: 0.01, h: '#808080' }, white: { v: 9, m: 1000000000, t: null, h: '#fff' },
+            gold: { v: null, m: 0.1, t: 5, h: '#ffd700' }, silver: { v: null, m: 0.01, t: 10, h: '#c0c0c0' }
         };
 
-        // UI Tabs Logic
-        function showTab(tabId) {
+        function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active'));
-            document.getElementById(tabId + '-section').classList.remove('hidden');
+            document.getElementById(id + '-section').classList.remove('hidden');
             event.currentTarget.classList.add('tab-active');
         }
 
-        // Resistor Calculation Logic
+        // Resistor Logic
         function initResistor() {
             const count = parseInt(document.getElementById('band-count').value);
             const container = document.getElementById('band-selectors');
             container.innerHTML = '';
-            
-            const bandTypes = count >= 5 ? ['Digit 1', 'Digit 2', 'Digit 3', 'Multiplier', 'Tolerance', 'Temp Coeff'] : 
-                              count === 4 ? ['Digit 1', 'Digit 2', 'Multiplier', 'Tolerance'] : 
-                              ['Digit 1', 'Digit 2', 'Multiplier'];
-
-            bandTypes.slice(0, count).forEach((type, idx) => {
+            const labels = ['Band 1', 'Band 2', 'Band 3', 'Multiplier', 'Tolerance', 'Temp'];
+            for(let i=0; i<count; i++) {
                 let options = '';
-                Object.keys(colors).forEach(color => {
-                    // Validation for specific bands
-                    if (type.includes('Digit') && colors[color].val === null) return;
-                    if (type === 'Tolerance' && colors[color].tol === null) return;
-                    if (type === 'Temp Coeff' && colors[color].temp === null) return;
-                    
-                    options += `<option value="${color}" style="background: ${colors[color].hex}">${color.toUpperCase()}</option>`;
+                Object.keys(colors).forEach(c => {
+                    options += `<option value="${c}" style="color:${colors[c].h}">${c.toUpperCase()}</option>`;
                 });
-
-                container.innerHTML += `
-                    <div>
-                        <label class="block text-[10px] uppercase text-slate-500">${type}</label>
-                        <select onchange="calculateResistor()" id="band-${idx}" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-sm">
-                            ${options}
-                        </select>
-                    </div>
-                `;
-            });
+                container.innerHTML += `<div><label class="text-[10px] uppercase">${labels[i]}</label><select id="band-${i}" onchange="calculateResistor()">${options}</select></div>`;
+            }
             calculateResistor();
         }
 
         function calculateResistor() {
             const count = parseInt(document.getElementById('band-count').value);
-            let resistance = 0;
-            let multiplier = 1;
-            let tolerance = "";
-            let temp = "";
-
-            // Reset visual bands
+            let res = 0;
             for(let i=0; i<6; i++) {
-                const band = document.getElementById(`visual-${i}`);
-                band.style.display = i < count ? 'block' : 'none';
+                const b = document.getElementById(`visual-${i}`);
                 if(i < count) {
-                    const colorKey = document.getElementById(`band-${i}`).value;
-                    band.style.backgroundColor = colors[colorKey].hex;
-                }
+                    const c = document.getElementById(`band-${i}`).value;
+                    b.style.display = 'block'; b.style.backgroundColor = colors[c].h;
+                } else b.style.display = 'none';
             }
-
-            if (count === 3 || count === 4) {
-                const d1 = colors[document.getElementById('band-0').value].val;
-                const d2 = colors[document.getElementById('band-1').value].val;
-                multiplier = colors[document.getElementById('band-2').value].mult;
-                resistance = (d1 * 10 + d2) * multiplier;
-                if(count === 4) tolerance = " ±" + colors[document.getElementById('band-3').value].tol + "%";
+            if(count < 5) {
+                res = (colors[document.getElementById('band-0').value].v * 10 + colors[document.getElementById('band-1').value].v) * colors[document.getElementById('band-2').value].m;
             } else {
-                const d1 = colors[document.getElementById('band-0').value].val;
-                const d2 = colors[document.getElementById('band-1').value].val;
-                const d3 = colors[document.getElementById('band-2').value].val;
-                multiplier = colors[document.getElementById('band-3').value].mult;
-                resistance = (d1 * 100 + d2 * 10 + d3) * multiplier;
-                tolerance = " ±" + colors[document.getElementById('band-4').value].tol + "%";
-                if(count === 6) temp = " | " + colors[document.getElementById('band-5').value].temp + "ppm/K";
+                res = (colors[document.getElementById('band-0').value].v * 100 + colors[document.getElementById('band-1').value].v * 10 + colors[document.getElementById('band-2').value].v) * colors[document.getElementById('band-3').value].m;
             }
-
-            document.getElementById('res-result').innerText = formatValue(resistance) + "Ω" + tolerance + temp;
+            document.getElementById('res-result').innerText = res >= 1000 ? (res/1000).toFixed(2) + " kΩ" : res.toFixed(1) + " Ω";
         }
 
-        function formatValue(num) {
-            if (num >= 1e6) return (num / 1e6).toFixed(2) + " M";
-            if (num >= 1e3) return (num / 1e3).toFixed(2) + " k";
-            if (num < 1 && num > 0) return num.toExponential(2);
-            return num.toFixed(2);
-        }
-
-        // Ohm's Law logic
+        // Ohm's Law
         function calcOhms() {
             let v = parseFloat(document.getElementById('v-val').value);
             let i = parseFloat(document.getElementById('i-val').value);
             let r = parseFloat(document.getElementById('r-val').value);
-            let p;
-
-            const resDiv = document.getElementById('ohms-result');
-
-            if (!isNaN(v) && !isNaN(i)) {
-                r = v / i;
-                p = v * i;
-            } else if (!isNaN(v) && !isNaN(r)) {
-                i = v / r;
-                p = (v * v) / r;
-            } else if (!isNaN(i) && !isNaN(r)) {
-                v = i * r;
-                p = (i * i) * r;
-            } else {
-                resDiv.innerHTML = "Please enter at least 2 values.";
-                return;
-            }
-
-            resDiv.innerHTML = `
-                <div class="flex justify-between"><span>Voltage:</span> <b>${v.toFixed(3)} V</b></div>
-                <div class="flex justify-between"><span>Current:</span> <b>${i.toFixed(3)} A</b></div>
-                <div class="flex justify-between"><span>Resistance:</span> <b>${r.toFixed(3)} Ω</b></div>
-                <div class="flex justify-between border-t border-slate-700 pt-2 text-blue-400"><span>Power:</span> <b>${p.toFixed(3)} W</b></div>
-            `;
+            let out = document.getElementById('ohms-result');
+            if(v && i) r = v/i; else if(v && r) i = v/r; else if(i && r) v = i*r;
+            let p = v * i;
+            out.innerHTML = `<div class="result-box">Voltage: ${v.toFixed(2)}V<br>Current: ${i.toFixed(2)}A<br>Resistance: ${r.toFixed(2)}Ω<br><b>Power: ${p.toFixed(2)}W</b></div>`;
         }
 
-        // L & C Logic
-        function calcLC(type, mode) {
-            const input = document.getElementById(type.toLowerCase() + '-list').value;
-            const values = input.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
-            let result = 0;
-
-            if (values.length === 0) return;
-
-            if (type === 'L' || (type === 'C' && mode === 'parallel')) {
-                // Same logic for L (Series) and C (Parallel)
-                if(mode === 'series' && type === 'L' || mode === 'parallel' && type === 'C') {
-                    result = values.reduce((a, b) => a + b, 0);
-                } else {
-                    result = 1 / values.reduce((a, b) => a + (1 / b), 0);
-                }
-            } else {
-                // Inverse logic for C (Series) and L (Parallel)
-                if(mode === 'series') {
-                    result = 1 / values.reduce((a, b) => a + (1 / b), 0);
-                } else {
-                    result = values.reduce((a, b) => a + b, 0);
-                }
-            }
-
-            document.getElementById(type.toLowerCase() + '-result').innerText = `Total: ${result.toPrecision(4)} ${type === 'C' ? 'F' : 'H'}`;
+        // AC Power
+        function calcAC() {
+            let v = parseFloat(document.getElementById('ac-v').value);
+            let i = parseFloat(document.getElementById('ac-i').value);
+            let pf = parseFloat(document.getElementById('ac-pf').value);
+            let s = v * i; // Apparent
+            let p = s * pf; // Real
+            let q = Math.sqrt(s*s - p*p); // Reactive
+            document.getElementById('ac-result').innerHTML = `Real Power (P): ${p.toFixed(2)} W<br>Apparent (S): ${s.toFixed(2)} VA<br>Reactive (Q): ${q.toFixed(2)} VAR`;
         }
 
-        // Start
+        // Transformer
+        function calcTrans() {
+            let np = parseFloat(document.getElementById('t-np').value);
+            let ns = parseFloat(document.getElementById('t-ns').value);
+            if(np && ns) document.getElementById('t-result').innerText = `Turn Ratio (a): ${(np/ns).toFixed(2)}`;
+        }
+
+        // Frequency
+        function calcFreq() {
+            let f = parseFloat(document.getElementById('freq-val').value);
+            if(f) document.getElementById('freq-result').innerText = `Period (T) = ${(1/f).toFixed(4)} Seconds`;
+        }
+
+        // L & C calc
+        function calcLC(t, m) {
+            let vals = document.getElementById(t.toLowerCase()+'-list').value.split(',').map(Number);
+            let res = 0;
+            if((t==='L' && m==='series') || (t==='C' && m==='parallel')) res = vals.reduce((a,b)=>a+b, 0);
+            else res = 1 / vals.reduce((a,b)=>a+(1/b), 0);
+            document.getElementById(t.toLowerCase()+'-result').innerText = "Total: " + res.toFixed(3);
+        }
+
         document.getElementById('defaultTab').click();
         initResistor();
     </script>
