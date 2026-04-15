@@ -3,140 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElectroMaster Pro | Shamiul Hasan</title>
+    <title>ElectroMaster Ultra-Pro | Shamiul Hasan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
-        :root { --primary: #00f2ff; --bg-dark: #050b18; }
-        body { font-family: 'Rajdhani', sans-serif; background: radial-gradient(circle at top right, #1e1b4b, #050b18); color: #e2e8f0; min-height: 100vh; overflow-x: hidden; margin: 0; padding: 15px; }
-        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; z-index: -1; animation: moveBg 20s linear infinite; }
-        @keyframes moveBg { from { background-position: 0 0; } to { background-position: 100% 100%; } }
-        .glass-card { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
-        .nav-btn { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 1px; color: #94a3b8; transition: 0.3s; position: relative; padding: 12px 8px; flex-shrink: 0; }
-        .nav-btn.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-        .nav-btn.active::after { content: ''; position: absolute; bottom: 0; left: 10%; width: 80%; height: 2px; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
-        .resistor-visual { background: #d4a373; height: 55px; width: 260px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border: 3px solid rgba(0,0,0,0.2); position: relative; overflow: hidden; }
-        .band { width: 12px; height: 100%; transition: 0.4s; box-shadow: 1px 0 3px rgba(0,0,0,0.2); }
-        select, input { background: rgba(2, 6, 23, 0.9) !important; border: 1px solid #1e293b !important; color: var(--primary) !important; padding: 10px; border-radius: 8px; width: 100%; outline: none; font-size: 14px; font-weight: bold; }
-        .tab-content { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        :root { --primary: #00f2ff; --neon-purp: #7000ff; --danger: #ff0055; }
+        body { font-family: 'Rajdhani', sans-serif; background: #020617; color: #e2e8f0; margin: 0; padding: 10px; overflow-x: hidden; }
+        
+        /* Cyberpunk Background Animation */
+        .cyber-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%); }
+        .grid-line { position: absolute; background: rgba(0, 242, 255, 0.05); }
+        
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 16px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 242, 255, 0.15); transform: translateY(-2px); }
+
+        /* Interactive Buttons */
+        .btn-action { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 1px solid #334155; transition: 0.2s; position: relative; overflow: hidden; cursor: pointer; }
+        .btn-action:active { transform: scale(0.95); background: var(--primary); color: #000; }
+        
+        .nav-link { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: #94a3b8; padding: 10px; border-bottom: 2px solid transparent; transition: 0.3s; white-space: nowrap; }
+        .nav-link.active { color: var(--primary); border-bottom-color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+
+        /* Component Visuals */
+        .resistor-body { background: #d4a373; height: 50px; width: 240px; border-radius: 50px; display: flex; justify-content: space-around; align-items: center; padding: 0 30px; border: 3px solid rgba(0,0,0,0.2); }
+        .band { width: 12px; height: 100%; box-shadow: 1px 0 2px rgba(0,0,0,0.3); }
+
+        /* Input Styles */
+        select, input { background: #0f172a !important; border: 1px solid #1e293b !important; color: var(--primary) !important; padding: 8px 12px; border-radius: 8px; width: 100%; outline: none; transition: 0.3s; }
+        select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+
+        .tab-content { animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
-    <div class="bg-dots"></div>
+    <div class="cyber-bg"></div>
 
-    <div class="max-w-4xl mx-auto">
-        <header class="glass-card p-5 mb-6 border-b-2 border-cyan-500 text-center md:text-left">
-            <h1 class="text-2xl font-bold tracking-tighter text-white" style="font-family: 'Orbitron';">ELECTRO<span class="text-cyan-400">MASTER</span> PRO</h1>
-            <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em]">Dev: SHAMIUL HASAN | ICST Engineer</p>
-            <div class="flex justify-center md:justify-start gap-5 mt-3 text-xl">
-                <a href="https://www.linkedin.com/in/shamiul-hasan-86a4623a8" target="_blank" class="hover:text-cyan-400"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.instagram.com/shamiulhasan08" target="_blank" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
-                <div class="border-l border-slate-700 pl-4">
-                    <span class="text-[10px] text-green-400 font-bold uppercase">System Active</span>
+    <div class="max-w-5xl mx-auto pb-10">
+        <header class="glass-card p-6 mb-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-2"><i class="fas fa-microchip text-cyan-900 text-6xl opacity-20"></i></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl font-bold tracking-tighter text-white" style="font-family: 'Orbitron';">ELECTRO<span class="text-cyan-400">MASTER</span> <span class="text-xs align-top border border-cyan-500 px-1 rounded text-cyan-500">V2.0</span></h1>
+                <p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Industrial Engineering Analysis Suite</p>
+                <div class="flex flex-wrap gap-4 mt-4 items-center">
+                    <span class="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-300">ENG: SHAMIUL HASAN</span>
+                    <span class="text-[10px] bg-emerald-900/30 px-2 py-1 rounded text-emerald-400 font-bold border border-emerald-500/30">SYSTEM ONLINE</span>
+                    <div class="flex gap-3 text-lg ml-auto">
+                        <a href="https://www.linkedin.com/in/shamiul-hasan-86a4623a8" target="_blank" class="hover:text-cyan-400 transition"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/shamiulhasan08" target="_blank" class="hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <nav class="flex justify-start md:justify-center gap-2 mb-8 overflow-x-auto no-scrollbar border-b border-slate-800">
-            <button onclick="switchTab('resistor', this)" class="nav-btn active">RESISTOR</button>
-            <button onclick="switchTab('networks', this)" class="nav-btn">NETWORKS</button>
-            <button onclick="switchTab('ohms', this)" class="nav-btn">OHM'S LAW</button>
-            <button onclick="switchTab('ac', this)" class="nav-btn">AC ANALYSIS</button>
+        <nav class="flex overflow-x-auto no-scrollbar gap-4 mb-6 border-b border-slate-800 pb-2">
+            <button onclick="switchTab('basic', this)" class="nav-link active">BASIC LAWS</button>
+            <button onclick="switchTab('resistor', this)" class="nav-link">RESISTOR</button>
+            <button onclick="switchTab('kirchhoff', this)" class="nav-link">KCL/KVL</button>
+            <button onclick="switchTab('faraday', this)" class="nav-link">FARADAY/JOULE</button>
+            <button onclick="switchTab('fields', this)" class="nav-link">FIELDS/EMF</button>
+            <button onclick="switchTab('ac', this)" class="nav-link">AC ANALYSIS</button>
         </nav>
 
-        <main>
-            <section id="resistor" class="tab-content">
-                <div class="glass-card p-6 text-center">
-                    <div class="flex flex-col items-center gap-6 mb-8">
-                        <div class="resistor-visual" id="res-image">
-                            </div>
-                        <h2 id="res-val" class="text-4xl font-bold text-cyan-400">0 Ω</h2>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="col-span-2">
-                            <label class="text-[10px] text-slate-500 uppercase block mb-1">Configuration</label>
-                            <select id="band-qty" onchange="initResistor()">
-                                <option value="4">4 Bands</option>
-                                <option value="5">5 Bands</option>
-                                <option value="6">6 Bands</option>
-                            </select>
-                        </div>
-                        <div id="band-selectors" class="contents"></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="networks" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="glass-card p-5 border-t-2 border-emerald-500">
-                        <h3 class="text-xs font-bold text-emerald-400 mb-3">RESISTANCE (Ω)</h3>
-                        <input type="text" id="r-list" placeholder="10, 22..." class="mb-3">
-                        <div class="flex gap-2">
-                            <button onclick="calcNet('R','S')" class="flex-1 bg-emerald-600/20 py-2 rounded text-[10px]">SERIES</button>
-                            <button onclick="calcNet('R','P')" class="flex-1 bg-slate-800 py-2 rounded text-[10px]">PARALLEL</button>
-                        </div>
-                        <div id="r-res" class="mt-3 text-cyan-400 font-mono text-sm">Total: --</div>
-                    </div>
-                    <div class="glass-card p-5 border-t-2 border-blue-500">
-                        <h3 class="text-xs font-bold text-blue-400 mb-3">CAPACITANCE (µF)</h3>
-                        <input type="text" id="c-list" placeholder="1, 10..." class="mb-3">
-                        <div class="flex gap-2">
-                            <button onclick="calcNet('C','S')" class="flex-1 bg-blue-600/20 py-2 rounded text-[10px]">SERIES</button>
-                            <button onclick="calcNet('C','P')" class="flex-1 bg-slate-800 py-2 rounded text-[10px]">PARALLEL</button>
-                        </div>
-                        <div id="c-res" class="mt-3 text-blue-400 font-mono text-sm">Total: --</div>
-                    </div>
-                    <div class="glass-card p-5 border-t-2 border-yellow-500">
-                        <h3 class="text-xs font-bold text-yellow-400 mb-3">INDUCTANCE (mH)</h3>
-                        <input type="text" id="l-list" placeholder="2.2, 10..." class="mb-3">
-                        <div class="flex gap-2">
-                            <button onclick="calcNet('L','S')" class="flex-1 bg-yellow-600/20 py-2 rounded text-[10px]">SERIES</button>
-                            <button onclick="calcNet('L','P')" class="flex-1 bg-slate-800 py-2 rounded text-[10px]">PARALLEL</button>
-                        </div>
-                        <div id="l-res" class="mt-3 text-yellow-400 font-mono text-sm">Total: --</div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="ohms" class="tab-content hidden">
-                <div class="glass-card p-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <main id="main-frame">
+            
+            <section id="basic" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-cyan-400 font-bold mb-4 border-l-4 border-cyan-500 pl-3">Ohm's Law Solver</h3>
                         <div class="space-y-4">
-                            <input type="number" id="ov" placeholder="Voltage (V)">
-                            <input type="number" id="oi" placeholder="Current (A)">
-                            <input type="number" id="or" placeholder="Resistance (Ω)">
-                            <button onclick="calcOhms()" class="w-full bg-cyan-600 py-3 rounded-lg font-bold">CALCULATE</button>
-                        </div>
-                        <div id="ohms-dash" class="bg-black/40 rounded-xl p-6 flex flex-col justify-center text-center">
-                            <p class="text-slate-500">Result will appear here</p>
+                            <div><label class="text-[10px] text-slate-500">Voltage (V)</label><input type="number" id="v-val" placeholder="Voltage..."></div>
+                            <div><label class="text-[10px] text-slate-500">Current (I)</label><input type="number" id="i-val" placeholder="Current..."></div>
+                            <div><label class="text-[10px] text-slate-500">Resistance (R)</label><input type="number" id="r-val" placeholder="Resistance..."></div>
+                            <button onclick="solveOhms()" class="btn-action w-full py-3 rounded-lg font-bold">CALCULATE</button>
                         </div>
                     </div>
+                    <div id="basic-res" class="glass-card p-6 flex flex-col justify-center items-center text-center bg-cyan-950/10">
+                        <div class="text-slate-500 italic">Provide two values to solve Ohm's Law and Power.</div>
+                    </div>
                 </div>
+            </section>
+
+            <section id="resistor" class="tab-content hidden">
+                <div class="glass-card p-8 text-center">
+                    <div class="flex flex-col items-center gap-6 mb-10">
+                        <div class="resistor-body" id="resistor-img"></div>
+                        <h2 id="resistor-text" class="text-5xl font-bold text-cyan-400">0 Ω</h2>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div class="col-span-full mb-2">
+                            <select id="res-type" onchange="buildResistorSelectors()"><option value="4">4-Band Resistor</option><option value="5">5-Band Resistor</option><option value="6">6-Band Resistor</option></select>
+                        </div>
+                        <div id="res-selectors" class="contents"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="kirchhoff" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 border-t-2 border-purple-500">
+                        <h3 class="text-purple-400 font-bold mb-4">KCL (Current Law)</h3>
+                        <p class="text-[10px] text-slate-500 mb-4 uppercase">Σ I(in) = Σ I(out)</p>
+                        <input type="text" id="kcl-in" placeholder="Incoming Currents (e.g. 2, 5)" class="mb-4">
+                        <input type="text" id="kcl-out" placeholder="Known Outgoing (e.g. 3)" class="mb-4">
+                        <button onclick="calcKCL()" class="btn-action w-full py-2 rounded">FIND UNKNOWN I</button>
+                        <div id="kcl-res" class="mt-4 text-purple-400 font-bold"></div>
+                    </div>
+                    <div class="glass-card p-6 border-t-2 border-yellow-500">
+                        <h3 class="text-yellow-400 font-bold mb-4">KVL (Voltage Law)</h3>
+                        <p class="text-[10px] text-slate-500 mb-4 uppercase">Σ V(source) - Σ V(drops) = 0</p>
+                        <input type="number" id="kvl-src" placeholder="Source Voltage (V)" class="mb-4">
+                        <input type="text" id="kvl-drops" placeholder="Voltage Drops (e.g. 10, 5, 2)" class="mb-4">
+                        <button onclick="calcKVL()" class="btn-action w-full py-2 rounded">CALCULATE REMAINING</button>
+                        <div id="kvl-res" class="mt-4 text-yellow-400 font-bold"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faraday" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 border-t-2 border-orange-500">
+                        <h3 class="text-orange-500 font-bold mb-4">Joule's Law (Heat)</h3>
+                        <p class="text-[10px] text-slate-500 mb-2">H = I²RT (Joules)</p>
+                        <input type="number" id="jh-i" placeholder="Current (A)" class="mb-2">
+                        <input type="number" id="jh-r" placeholder="Resistance (Ω)" class="mb-2">
+                        <input type="number" id="jh-t" placeholder="Time (Seconds)" class="mb-2">
+                        <button onclick="calcJoule()" class="btn-action w-full py-2 rounded text-orange-400">CALC HEAT</button>
+                        <div id="jh-res" class="mt-4 text-white font-mono"></div>
+                    </div>
+                    <div class="glass-card p-6 border-t-2 border-cyan-500">
+                        <h3 class="text-cyan-400 font-bold mb-4">Faraday's Law (EMF)</h3>
+                        <p class="text-[10px] text-slate-500 mb-2">e = -N (dΦ/dt)</p>
+                        <input type="number" id="fl-n" placeholder="Number of Turns (N)" class="mb-2">
+                        <input type="number" id="fl-f" placeholder="Change in Flux (Wb)" class="mb-2">
+                        <input type="number" id="fl-t" placeholder="Time Interval (s)" class="mb-2">
+                        <button onclick="calcFaraday()" class="btn-action w-full py-2 rounded">CALC INDUCED EMF</button>
+                        <div id="fl-res" class="mt-4 text-white font-mono"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="fields" class="tab-content hidden">
+                 <div class="glass-card p-6">
+                    <h3 class="text-emerald-400 font-bold mb-4">Electric & Magnetic Field</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <p class="text-xs text-slate-400 font-bold">Coulomb's Law (Force)</p>
+                            <input type="number" id="f-q1" placeholder="Charge q1 (C)">
+                            <input type="number" id="f-q2" placeholder="Charge q2 (C)">
+                            <input type="number" id="f-r" placeholder="Distance (m)">
+                            <button onclick="calcCoulomb()" class="btn-action w-full py-2 rounded text-xs">CALC ELECTROSTATIC FORCE</button>
+                        </div>
+                        <div id="field-res" class="bg-black/40 p-4 rounded-lg border border-slate-800 flex items-center justify-center text-center">
+                            <p class="text-slate-500 text-sm italic">Law calculation results will appear here.</p>
+                        </div>
+                    </div>
+                 </div>
             </section>
 
             <section id="ac" class="tab-content hidden">
-                <div class="glass-card p-6 max-w-lg mx-auto">
-                    <div class="space-y-4">
-                        <input type="number" id="ac-v" placeholder="Voltage (V)">
-                        <input type="number" id="ac-i" placeholder="Current (A)">
-                        <input type="number" id="ac-pf" placeholder="Power Factor (0.0 - 1.0)">
-                        <button onclick="calcAC()" class="w-full bg-emerald-600 py-3 rounded-lg font-bold">ANALYZE</button>
+                <div class="glass-card p-6 max-w-2xl mx-auto">
+                    <h3 class="text-pink-500 font-bold mb-6 border-b border-slate-800 pb-2">AC Circuit Analyzer (1Φ)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="number" id="ac-v" placeholder="RMS Voltage (V)">
+                        <input type="number" id="ac-i" placeholder="RMS Current (A)">
+                        <input type="number" id="ac-pf" placeholder="Power Factor (cos θ)">
+                        <input type="number" id="ac-f" placeholder="Frequency (Hz)" value="50">
+                        <button onclick="analyzeAC()" class="btn-action col-span-full py-3 rounded-lg font-bold text-pink-400">RUN FULL AC ANALYSIS</button>
                     </div>
-                    <div id="ac-res" class="mt-6 grid grid-cols-2 gap-3"></div>
+                    <div id="ac-report" class="mt-6 grid grid-cols-2 gap-3"></div>
                 </div>
             </section>
-        </main>
 
-        <footer class="mt-10 text-center text-slate-600 text-[10px] pb-5">
-            © 2026 SHAMIUL HASAN | ICST ELECTRICAL TECHNOLOGY
-        </footer>
+        </main>
     </div>
 
     <script>
-        const colorData = {
+        const colors = {
             black: {v:0, m:1, h:'#000'}, brown: {v:1, m:10, h:'#8B4513'},
             red: {v:2, m:100, h:'#f00'}, orange: {v:3, m:1000, h:'#ffa500'},
             yellow: {v:4, m:10000, h:'#ff0'}, green: {v:5, m:100000, h:'#008000'},
@@ -147,78 +194,107 @@
 
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).classList.remove('hidden');
             btn.classList.add('active');
         }
 
-        function initResistor() {
-            const count = parseInt(document.getElementById('band-qty').value);
-            const container = document.getElementById('band-selectors');
-            const visual = document.getElementById('res-image');
+        // --- RESISTOR LOGIC ---
+        function buildResistorSelectors() {
+            const count = parseInt(document.getElementById('res-type').value);
+            const container = document.getElementById('res-selectors');
+            const visual = document.getElementById('resistor-img');
+            container.innerHTML = ''; visual.innerHTML = '';
             
-            container.innerHTML = '';
-            visual.innerHTML = '';
-            
-            let labels = count == 4 ? ['Digit 1', 'Digit 2', 'Multiplier', 'Tolerance'] : 
-                         count == 5 ? ['Digit 1', 'Digit 2', 'Digit 3', 'Multiplier', 'Tolerance'] :
-                                     ['Digit 1', 'Digit 2', 'Digit 3', 'Multiplier', 'Tolerance', 'Temp'];
+            const labels = count == 4 ? ['Digit 1', 'Digit 2', 'Multiplier', 'Tolerance'] : 
+                           count == 5 ? ['Digit 1', 'Digit 2', 'Digit 3', 'Multiplier', 'Tolerance'] :
+                                       ['Digit 1', 'Digit 2', 'Digit 3', 'Multiplier', 'Tolerance', 'PPM'];
 
             for(let i=0; i<count; i++) {
-                // Create Dropdowns
                 let opts = '';
-                Object.keys(colorData).forEach(c => {
-                    opts += `<option value="${c}" style="color:${colorData[c].h}">${c.toUpperCase()}</option>`;
-                });
-                container.innerHTML += `<div><label class="text-[10px] text-slate-500">${labels[i]}</label>
-                <select id="b-${i}" onchange="updateResistor()">${opts}</select></div>`;
-                
-                // Create Visual Bands
-                visual.innerHTML += `<div id="vband-${i}" class="band"></div>`;
+                Object.keys(colors).forEach(c => opts += `<option value="${c}" style="color:${colors[c].h}">${c.toUpperCase()}</option>`);
+                container.innerHTML += `<div><label class="text-[10px] text-slate-500 uppercase">${labels[i]}</label><select id="rc-${i}" onchange="updateResistor()">${opts}</select></div>`;
+                visual.innerHTML += `<div id="rb-${i}" class="band"></div>`;
             }
             updateResistor();
         }
 
         function updateResistor() {
-            const count = parseInt(document.getElementById('band-qty').value);
+            const count = parseInt(document.getElementById('res-type').value);
             let val = 0;
-            
             for(let i=0; i<count; i++) {
-                const color = document.getElementById('b-'+i).value;
-                document.getElementById('vband-'+i).style.backgroundColor = colorData[color].h;
+                const c = document.getElementById('rc-'+i).value;
+                document.getElementById('rb-'+i).style.backgroundColor = colors[c].h;
             }
-
-            if(count == 4) {
-                val = (colorData[document.getElementById('b-0').value].v * 10 + colorData[document.getElementById('b-1').value].v) * colorData[document.getElementById('b-2').value].m;
-            } else {
-                val = (colorData[document.getElementById('b-0').value].v * 100 + colorData[document.getElementById('b-1').value].v * 10 + colorData[document.getElementById('b-2').value].v) * colorData[document.getElementById('b-3').value].m;
-            }
-
-            document.getElementById('res-val').innerText = val >= 1e6 ? (val/1e6).toFixed(2) + " MΩ" : val >= 1000 ? (val/1000).toFixed(2) + " kΩ" : val.toFixed(1) + " Ω";
+            if(count == 4) val = (colors[document.getElementById('rc-0').value].v * 10 + colors[document.getElementById('rc-1').value].v) * colors[document.getElementById('rc-2').value].m;
+            else val = (colors[document.getElementById('rc-0').value].v * 100 + colors[document.getElementById('rc-1').value].v * 10 + colors[document.getElementById('rc-2').value].v) * colors[document.getElementById('rc-3').value].m;
+            
+            document.getElementById('resistor-text').innerText = val >= 1e6 ? (val/1e6).toFixed(2) + " MΩ" : val >= 1000 ? (val/1000).toFixed(2) + " kΩ" : val.toFixed(1) + " Ω";
         }
 
-        function calcNet(type, mode) {
-            const vals = document.getElementById(type.toLowerCase()+'-list').value.split(',').map(Number).filter(n => n > 0);
-            if(vals.length === 0) return;
-            let res = (type === 'C') ? (mode === 'P' ? vals.reduce((a,b)=>a+b) : 1/vals.reduce((a,b)=>a+(1/b),0)) : (mode === 'S' ? vals.reduce((a,b)=>a+b) : 1/vals.reduce((a,b)=>a+(1/b),0));
-            const units = {R:'Ω', C:'µF', L:'mH'};
-            document.getElementById(type.toLowerCase()+'-res').innerHTML = `Total: <b class="text-white">${res.toFixed(2)} ${units[type]}</b>`;
-        }
-
-        function calcOhms() {
-            let v = parseFloat(document.getElementById('ov').value), i = parseFloat(document.getElementById('oi').value), r = parseFloat(document.getElementById('or').value);
+        // --- CALCULATION LOGIC ---
+        function solveOhms() {
+            let v = parseFloat(document.getElementById('v-val').value);
+            let i = parseFloat(document.getElementById('i-val').value);
+            let r = parseFloat(document.getElementById('r-val').value);
             if(v && i) r = v/i; else if(v && r) i = v/r; else if(i && r) v = i*r;
-            document.getElementById('ohms-dash').innerHTML = `<div class="text-3xl font-bold text-cyan-400">${(v*i).toFixed(2)}W</div><div class="text-[10px] text-slate-500 uppercase">Power</div><div class="mt-4 text-xs text-left space-y-1"><div>V: ${v.toFixed(1)}V</div><div>I: ${i.toFixed(2)}A</div><div>R: ${r.toFixed(1)}Ω</div></div>`;
+            if(!v || !i || !r) return;
+            document.getElementById('basic-res').innerHTML = `<div class="text-4xl font-bold text-cyan-400">${(v*i).toFixed(2)}W</div><div class="text-xs text-slate-500 uppercase mt-2 tracking-widest">Total Power (P)</div><div class="grid grid-cols-3 gap-4 mt-6 w-full text-xs"><div><p class="text-slate-500 uppercase">Volt</p><p class="text-white">${v.toFixed(2)}V</p></div><div><p class="text-slate-500 uppercase">Amp</p><p class="text-white">${i.toFixed(2)}A</p></div><div><p class="text-slate-500 uppercase">Ohm</p><p class="text-white">${r.toFixed(2)}Ω</p></div></div>`;
         }
 
-        function calcAC() {
-            const v = parseFloat(document.getElementById('ac-v').value), i = parseFloat(document.getElementById('ac-i').value), pf = parseFloat(document.getElementById('ac-pf').value);
-            if(!v || !i || !pf) return;
-            const p = v*i*pf, s = v*i, q = Math.sqrt(s*s - p*p);
-            document.getElementById('ac-res').innerHTML = `<div class="bg-black/40 p-3 rounded"><p class="text-[10px]">WATT</p><p class="font-bold text-emerald-400">${p.toFixed(1)}</p></div><div class="bg-black/40 p-3 rounded"><p class="text-[10px]">VA</p><p class="font-bold text-blue-400">${s.toFixed(1)}</p></div><div class="bg-black/40 p-3 rounded"><p class="text-[10px]">VAR</p><p class="font-bold text-yellow-400">${q.toFixed(1)}</p></div><div class="bg-black/40 p-3 rounded"><p class="text-[10px]">PF</p><p class="font-bold text-cyan-400">${pf}</p></div>`;
+        function calcKCL() {
+            const sum = (str) => str.split(',').map(Number).reduce((a,b)=>a+b,0);
+            const incoming = sum(document.getElementById('kcl-in').value);
+            const outgoing = sum(document.getElementById('kcl-out').value);
+            document.getElementById('kcl-res').innerText = `Unknown Current: ${Math.abs(incoming - outgoing).toFixed(2)} A`;
         }
 
-        window.onload = initResistor;
+        function calcKVL() {
+            const src = parseFloat(document.getElementById('kvl-src').value);
+            const drops = document.getElementById('kvl-drops').value.split(',').map(Number).reduce((a,b)=>a+b,0);
+            document.getElementById('kvl-res').innerText = `Remaining Voltage: ${(src - drops).toFixed(2)} V`;
+        }
+
+        function calcJoule() {
+            const i = parseFloat(document.getElementById('jh-i').value);
+            const r = parseFloat(document.getElementById('jh-r').value);
+            const t = parseFloat(document.getElementById('jh-t').value);
+            const h = i * i * r * t;
+            document.getElementById('jh-res').innerHTML = `Energy: ${h.toFixed(2)} Joules <br> Heat: ${(h/4.18).toFixed(2)} Calories`;
+        }
+
+        function calcFaraday() {
+            const n = parseFloat(document.getElementById('fl-n').value);
+            const f = parseFloat(document.getElementById('fl-f').value);
+            const t = parseFloat(document.getElementById('fl-t').value);
+            document.getElementById('fl-res').innerText = `Induced EMF (e): ${Math.abs(n * (f/t)).toFixed(2)} Volts`;
+        }
+
+        function calcCoulomb() {
+            const k = 8.987e9;
+            const q1 = parseFloat(document.getElementById('f-q1').value);
+            const q2 = parseFloat(document.getElementById('f-q2').value);
+            const r = parseFloat(document.getElementById('f-r').value);
+            const f = k * (Math.abs(q1 * q2) / (r * r));
+            document.getElementById('field-res').innerHTML = `<div class="text-emerald-400 font-bold">Electrostatic Force:<br>${f.toExponential(2)} Newton</div>`;
+        }
+
+        function analyzeAC() {
+            const v = parseFloat(document.getElementById('ac-v').value);
+            const i = parseFloat(document.getElementById('ac-i').value);
+            const pf = parseFloat(document.getElementById('ac-pf').value);
+            if(!v || !i) return;
+            const p = v * i * pf; const s = v * i; const q = Math.sqrt(s*s - p*p);
+            const report = [
+                {l:'Active (P)', v:p.toFixed(1)+' W', c:'text-emerald-400'},
+                {l:'Apparent (S)', v:s.toFixed(1)+' VA', c:'text-blue-400'},
+                {l:'Reactive (Q)', v:q.toFixed(1)+' VAR', c:'text-yellow-400'},
+                {l:'Phase Angle', v:(Math.acos(pf)*(180/Math.PI)).toFixed(1)+'°', c:'text-pink-400'}
+            ];
+            document.getElementById('ac-report').innerHTML = report.map(item => `<div class="bg-black/40 p-3 rounded border border-slate-800"><p class="text-[10px] uppercase text-slate-500">${item.l}</p><p class="${item.c} font-bold text-lg">${item.v}</p></div>`).join('');
+        }
+
+        window.onload = buildResistorSelectors;
     </script>
 </body>
 </html>
