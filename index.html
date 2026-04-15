@@ -1,87 +1,168 @@
-<section id="ac" class="tab-content hidden">
-    <div class="glass-card p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div class="space-y-5">
-                <h3 class="text-xl font-bold text-cyan-400 uppercase tracking-widest">AC Circuit Analyzer</h3>
-                
-                <div>
-                    <label class="text-[10px] text-slate-500 uppercase">RMS Voltage (V)</label>
-                    <input type="number" id="ac-v-in" placeholder="e.g. 230" class="w-full p-3 rounded-lg mt-1">
-                </div>
-                
-                <div>
-                    <label class="text-[10px] text-slate-500 uppercase">Current (I) in Amps</label>
-                    <input type="number" id="ac-i-in" placeholder="e.g. 5" class="w-full p-3 rounded-lg mt-1">
-                </div>
-                
-                <div>
-                    <label class="text-[10px] text-slate-500 uppercase">Power Factor (cos φ)</label>
-                    <input type="number" id="ac-pf-in" placeholder="0.1 to 1.0" step="0.01" value="0.8" class="w-full p-3 rounded-lg mt-1">
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroMaster Pro | Shamiul Hasan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+        :root { --primary: #00f2ff; --secondary: #7000ff; --bg-dark: #050b18; }
+        body { font-family: 'Rajdhani', sans-serif; background: radial-gradient(circle at top right, #1e1b4b, #050b18); color: #e2e8f0; min-height: 100vh; overflow-x: hidden; }
+        .bg-dots { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px); background-size: 30px 30px; z-index: -1; animation: moveBg 20s linear infinite; }
+        @keyframes moveBg { from { background-position: 0 0; } to { background-position: 100% 100%; } }
+        .glass-card { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(16px); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 20px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); transition: 0.4s; }
+        .nav-btn { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 1px; color: #94a3b8; transition: 0.3s; position: relative; }
+        .nav-btn.active { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .nav-btn.active::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .resistor-visual { background: linear-gradient(90deg, #d4a373 0%, #faedcd 50%, #d4a373 100%); height: 50px; width: 260px; border-radius: 50px; display: flex; justify-content: space-around; align-items: center; padding: 0 35px; border: 2px solid rgba(0,0,0,0.1); }
+        .band { width: 14px; height: 100%; }
+        input, select { background: rgba(2, 6, 23, 0.9) !important; border: 1px solid #1e293b !important; color: var(--primary) !important; padding: 10px; border-radius: 8px; width: 100%; outline: none; }
+        .tab-content { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="bg-dots"></div>
 
-                <button onclick="calculateACPower()" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_rgba(0,242,255,0.4)] transition-all">
-                    RUN ANALYSIS
-                </button>
+    <div class="max-w-6xl mx-auto">
+        <header class="glass-card p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-tighter" style="font-family: 'Orbitron';">
+                    ELECTRO<span class="text-cyan-400">MASTER</span> PRO
+                </h1>
+                <p class="text-slate-400">Dev: <span class="text-white">SHAMIUL HASAN</span></p>
+                <p class="text-[10px] text-cyan-500 uppercase tracking-widest">ICST Engineer</p>
             </div>
-
-            <div id="ac-dash" class="flex flex-col justify-center bg-black/40 p-6 rounded-2xl border border-white/5">
-                <div class="text-center mb-6">
-                    <p id="p-active" class="text-4xl font-bold text-cyan-400">0 W</p>
-                    <p class="text-[10px] uppercase text-slate-500 tracking-widest">Active Power (P)</p>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4 border-t border-white/10 pt-6">
-                    <div class="text-center">
-                        <p id="p-apparent" class="text-lg font-bold text-white">0 VA</p>
-                        <p class="text-[9px] uppercase text-slate-500">Apparent (S)</p>
-                    </div>
-                    <div class="text-center">
-                        <p id="p-reactive" class="text-lg font-bold text-pink-500">0 VAR</p>
-                        <p class="text-[9px] uppercase text-slate-500">Reactive (Q)</p>
-                    </div>
-                </div>
-                
-                <div class="mt-6 p-3 bg-cyan-500/10 rounded-lg text-center">
-                    <p id="p-angle" class="text-xs text-cyan-300">Phase Angle (φ): 0°</p>
+            <div class="flex gap-5 text-2xl">
+                <a href="https://www.linkedin.com/in/shamiul-hasan-86a4623a8" target="_blank" class="hover:text-cyan-400 transition"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/shamiulhasan08" target="_blank" class="hover:text-pink-500 transition"><i class="fab fa-instagram"></i></a>
+                <div class="text-right border-l border-slate-700 pl-4">
+                    <p class="text-[10px] text-slate-500 uppercase">Status</p>
+                    <p class="text-xs text-green-400 font-bold tracking-widest">ACTIVE</p>
                 </div>
             </div>
-        </div>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-6 mb-10 border-b border-slate-800 pb-4">
+            <button onclick="switchTab('resistor', this)" class="nav-btn active">RESISTOR</button>
+            <button onclick="switchTab('network', this)" class="nav-btn">NETWORKS</button>
+            <button onclick="switchTab('ohms', this)" class="nav-btn">OHM'S LAW</button>
+            <button onclick="switchTab('ac', this)" class="nav-btn">AC ANALYSIS</button>
+        </nav>
+
+        <main>
+            <section id="resistor" class="tab-content">
+                <div class="glass-card p-8 text-center">
+                    <div class="flex flex-col items-center gap-6 mb-8">
+                        <div class="resistor-visual">
+                            <div id="b0" class="band"></div><div id="b1" class="band"></div>
+                            <div id="b2" class="band"></div><div id="b3" class="band"></div>
+                            <div id="b4" class="band"></div><div id="b5" class="band"></div>
+                        </div>
+                        <h2 id="res-val" class="text-5xl font-bold text-cyan-400">0 Ω</h2>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase">Bands</label>
+                            <select id="bands" onchange="initRes()"><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
+                        </div>
+                        <div id="band-inputs" class="contents"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="network" class="tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 border-b-2 border-emerald-500">
+                        <h3 class="font-bold text-emerald-400 mb-4">RESISTANCE (Ω)</h3>
+                        <input type="text" id="r-list" placeholder="10, 20..." class="mb-4">
+                        <div class="flex gap-2 mb-4">
+                            <button onclick="calcNet('R','S')" class="flex-1 bg-emerald-600/20 border border-emerald-600 py-1 rounded">SERIES</button>
+                            <button onclick="calcNet('R','P')" class="flex-1 bg-slate-800 py-1 rounded">PARALLEL</button>
+                        </div>
+                        <div id="r-res" class="text-sm font-mono text-emerald-400">Total: --</div>
+                    </div>
+                    </div>
+            </section>
+
+            <section id="ac" class="tab-content hidden">
+                <div class="glass-card p-8 max-w-2xl mx-auto">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-6">AC Circuit Analyzer</h3>
+                    <div class="space-y-4">
+                        <input type="number" id="ac-v" placeholder="RMS Voltage (V)">
+                        <input type="number" id="ac-i" placeholder="Current (A)">
+                        <input type="number" id="ac-pf" placeholder="Power Factor (cos φ)" value="0.8">
+                        <button onclick="calcAC()" class="w-full bg-cyan-600 py-3 rounded-lg font-bold">RUN ANALYSIS</button>
+                    </div>
+                    <div id="ac-res" class="mt-8 grid grid-cols-2 gap-4 text-center"></div>
+                </div>
+            </section>
+        </main>
     </div>
-</section>
 
-<script>
-// Ei function-ti script tag er bhetore thakbe
-function calculateACPower() {
-    const V = parseFloat(document.getElementById('ac-v-in').value);
-    const I = parseFloat(document.getElementById('ac-i-in').value);
-    const PF = parseFloat(document.getElementById('ac-pf-in').value);
+    <script>
+        const colorData = {
+            black: {v:0, m:1, h:'#000'}, brown: {v:1, m:10, h:'#8B4513'},
+            red: {v:2, m:100, h:'#f00'}, orange: {v:3, m:1000, h:'#ffa500'},
+            yellow: {v:4, m:10000, h:'#ff0'}, green: {v:5, m:100000, h:'#008000'},
+            blue: {v:6, m:1000000, h:'#00f'}, violet: {v:7, m:10000000, h:'#ee82ee'},
+            grey: {v:8, m:100000000, h:'#808080'}, white: {v:9, m:1000000000, h:'#fff'},
+            gold: {v:null, m:0.1, t:5, h:'#ffd700'}, silver: {v:null, m:0.01, t:10, h:'#c0c0c0'}
+        };
 
-    if (isNaN(V) || isNaN(I) || isNaN(PF)) {
-        alert("Please enter valid Voltage, Current and Power Factor!");
-        return;
-    }
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.remove('hidden');
+            btn.classList.add('active');
+        }
 
-    if (PF > 1 || PF < 0) {
-        alert("Power Factor must be between 0 and 1");
-        return;
-    }
+        function initRes() {
+            const count = parseInt(document.getElementById('bands').value);
+            const container = document.getElementById('band-inputs');
+            container.innerHTML = '';
+            for(let i=0; i<count; i++) {
+                let opts = '';
+                Object.keys(colorData).forEach(c => {
+                    opts += `<option value="${c}" style="color:${colorData[c].h}">${c.toUpperCase()}</option>`;
+                });
+                container.innerHTML += `<div><select id="s-${i}" onchange="updateRes()">${opts}</select></div>`;
+            }
+            updateRes();
+        }
 
-    // Calculations
-    const S = V * I;                    // Apparent Power (VA)
-    const P = S * PF;                   // Active Power (W)
-    const Q = Math.sqrt(Math.pow(S, 2) - Math.pow(P, 2)); // Reactive Power (VAR)
-    const angle = Math.acos(PF) * (180 / Math.PI);        // Phase Angle in Degrees
+        function updateRes() {
+            const count = parseInt(document.getElementById('bands').value);
+            let val = 0;
+            for(let i=0; i<6; i++) {
+                const b = document.getElementById('b'+i);
+                if(i < count) {
+                    const c = document.getElementById('s-'+i).value;
+                    b.style.display = 'block'; b.style.backgroundColor = colorData[c].h;
+                } else b.style.display = 'none';
+            }
+            if(count == 4) val = (colorData[document.getElementById('s-0').value].v * 10 + colorData[document.getElementById('s-1').value].v) * colorData[document.getElementById('s-2').value].m;
+            else val = (colorData[document.getElementById('s-0').value].v * 100 + colorData[document.getElementById('s-1').value].v * 10 + colorData[document.getElementById('s-2').value].v) * colorData[document.getElementById('s-3').value].m;
+            document.getElementById('res-val').innerText = val >= 1e6 ? (val/1e6).toFixed(2) + " MΩ" : val >= 1000 ? (val/1000).toFixed(2) + " kΩ" : val.toFixed(1) + " Ω";
+        }
 
-    // UI Updates with Animation
-    animateValue("p-active", P, " W");
-    animateValue("p-apparent", S, " VA");
-    animateValue("p-reactive", Q, " VAR");
-    document.getElementById('p-angle').innerText = `Phase Angle (φ): ${angle.toFixed(2)}°`;
-}
+        function calcAC() {
+            const v = parseFloat(document.getElementById('ac-v').value);
+            const i = parseFloat(document.getElementById('ac-i').value);
+            const pf = parseFloat(document.getElementById('ac-pf').value);
+            if(!v || !i) return;
+            const p = v * i * pf; const s = v * i; const q = Math.sqrt(s*s - p*p);
+            document.getElementById('ac-res').innerHTML = `
+                <div class="p-4 bg-black/40 rounded"><h5>ACTIVE (P)</h5><p class="text-cyan-400 font-bold">${p.toFixed(1)} W</p></div>
+                <div class="p-4 bg-black/40 rounded"><h5>APPARENT (S)</h5><p class="text-purple-400 font-bold">${s.toFixed(1)} VA</p></div>
+                <div class="p-4 bg-black/40 rounded"><h5>REACTIVE (Q)</h5><p class="text-yellow-400 font-bold">${q.toFixed(1)} VAR</p></div>
+                <div class="p-4 bg-black/40 rounded"><h5>ANGLE</h5><p class="text-emerald-400 font-bold">${(Math.acos(pf)*(180/Math.PI)).toFixed(1)}°</p></div>
+            `;
+        }
 
-// Result smooth korar jonno choto ekta helper function
-function animateValue(id, value, unit) {
-    const obj = document.getElementById(id);
-    obj.innerText = value.toFixed(2) + unit;
-}
-</script>
+        window.onload = initRes;
+    </script>
+</body>
+</html>
